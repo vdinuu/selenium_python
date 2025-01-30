@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+//     parameters {
+//         choice(name: 'PROFILE', choices: ['smoke', 'regression'], description: "Select the maven profile to be executed")
+// //        string(name: 'TAG', defaultValue: "AddPlace", description: 'Enter the tag you want to use for execution')
+//     }
+
+    stages {
+        stage('GIT Checkout') {
+            steps {
+                echo "*********Git checkout code*********"
+                git branch: 'master',
+                        credentialsId: 'GitHub_643',
+                        url: 'https://github.com/vdinuu/selenium_python.git'
+            }
+        }
+        stage('Execute test cases') {
+            steps {
+                echo "*********Executing test cases**********"
+                bat """
+                    pytest -s
+                    """
+            }
+        }
+//         stage('Generate HTML Report') {
+//             steps {
+//                 echo "*********Generating HTML report*********"
+//                 bat 'allure generate target/allure-results --clean -o allure-report'
+//             }
+//         }
+        //Make sure to install HTML publisher plugin before using this stage
+//         stage('Publish HTML report') {
+//             steps {
+//                 allure([
+//                         results: [[path: 'target/allure-results']],   // Path to the directory with allure-results
+//                         report: 'allure-report'                 // Path to the directory with generated allure report
+//                 ])
+//             }
+//         }
+    }
+}
