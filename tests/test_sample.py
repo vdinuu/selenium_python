@@ -1,0 +1,50 @@
+import pytest
+
+from pages.LandingPage import LandingPage
+from utilities.Base import Base
+
+
+class TestSample(Base):
+    def test_sample(self, get_data):
+        log = self.get_logger()
+        landing_page = LandingPage(self.driver)
+        landing_page.enter_name(get_data["name"])
+        landing_page.enter_email(get_data["email"])
+        landing_page.enter_password(get_data["password"])
+        landing_page.select_icecream_checkbox()
+        landing_page.select_gender(get_data["gender"])
+        landing_page.select_student()
+        landing_page.enter_dob(get_data["dob"])
+        landing_page.submit_form()
+        message = landing_page.get_alert_message()
+        log.info("Alert displayed : "+message)
+        try :
+            assert "Success" in message, "Success is not in alert"
+        except AssertionError as e:
+            log.error(e)
+
+
+    def test_e2e(self):
+        product_needed = "Samsung Note 8"
+        landing_page = LandingPage(self.driver)
+        products_page = landing_page.go_to_products()
+        products_page.add_product_to_cart(product_needed)
+        cart_page = products_page.go_to_cart()
+        product_in_cart = cart_page.get_product_name()
+        assert product_needed == product_in_cart
+        confirmation_page = cart_page.checkout_product()
+        country_needed = "india"
+        confirmation_page.select_country(country_needed)
+        confirmation_page.select_terms_checkbox()
+        confirmation_page.purchase_order()
+        message = confirmation_page.get_alert()
+        assert "Success!" in message
+
+    # data parameterization using tuple
+    # @pytest.fixture(params=[("Dinu", "test@test.com", "tester@453", "Male", "11112012"),
+    #                         ("Sini", "test@test.com", "testersini@453", "Female", "11112012")])
+    # using dictionary
+    @pytest.fixture(params=[{"name": "Dinu", "email" : "test@test.com", "password": "tester@453", "gender":"Male", "dob": "11112012"},
+                            {"name": "Sini", "email" : "sini@test.com", "password": "tester@453", "gender":"Female", "dob": "11112012"}])
+    def get_data(self, request):
+        return request.param
