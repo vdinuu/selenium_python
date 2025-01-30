@@ -1,5 +1,5 @@
 /.pytest_cache/
 /.idea/
 .idea/*.xml
-/logs/
+/logs/*.log
 tests/.pytest_cache
