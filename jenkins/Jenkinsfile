@@ -39,6 +39,7 @@ pipeline {
                 bat 'allure generate allure-results --clean -o allure-report'
             }
         }
+        }
 //         Make sure to install HTML publisher plugin before using this stage
 //         stage('Publish HTML report') {
 //             steps {
@@ -48,11 +49,11 @@ pipeline {
 //                 ])
 //             }
 //         }
+
         post {
             always {
                 // Publish the Allure report
                 allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
         }
-    }
 }
