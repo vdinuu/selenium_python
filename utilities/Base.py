@@ -17,7 +17,6 @@ class Base:
         log_dir = os.path.join(project_root, "logs")
         os.makedirs(log_dir, exist_ok=True)
         log_file_path = os.path.join(log_dir, "logfile.log")
-        print(log_file_path)
         logger_name = inspect.stack()[1][3]
         log = logging.getLogger(logger_name)
         filehandler = logging.FileHandler(log_file_path, mode='w')
