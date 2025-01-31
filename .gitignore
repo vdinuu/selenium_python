@@ -1,7 +1,8 @@
-/.pytest_cache/
-/.idea/
+.pytest_cache/
+.idea/
 .idea/*.xml
-/logs/*.log
+logs/*.log
 tests/.pytest_cache
 *.log
 *.pyc
+allure-results/
