@@ -33,20 +33,20 @@ pipeline {
                     """
             }
         }
-//         stage('Generate HTML Report') {
-//             steps {
-//                 echo "*********Generating HTML report*********"
-//                 bat 'allure generate target/allure-results --clean -o allure-report'
-//             }
-//         }
-        //Make sure to install HTML publisher plugin before using this stage
-//         stage('Publish HTML report') {
-//             steps {
-//                 allure([
-//                         results: [[path: 'target/allure-results']],   // Path to the directory with allure-results
-//                         report: 'allure-report'                 // Path to the directory with generated allure report
-//                 ])
-//             }
-//         }
+        stage('Generate HTML Report') {
+            steps {
+                echo "*********Generating HTML report*********"
+                bat 'allure generate allure-results --clean -o allure-report'
+            }
+        }
+        Make sure to install HTML publisher plugin before using this stage
+        stage('Publish HTML report') {
+            steps {
+                allure([
+                        results: [[path: 'allure-results']],   // Path to the directory with allure-results
+                        report: 'allure-report'                 // Path to the directory with generated allure report
+                ])
+            }
+        }
     }
 }
