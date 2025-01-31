@@ -26,7 +26,7 @@ class TestShopping(Base):
             message = landing_page.get_alert_message()
             log.info("Alert displayed : " + message)
             try:
-                assert "Fail" in message, "Success is not in alert"
+                assert "Success" in message, "Success is not in alert"
             except AssertionError as e:
                 log.error(e)
                 raise
@@ -54,7 +54,7 @@ class TestShopping(Base):
             message = confirmation_page.get_alert()
             log.info("Alert displayed : " + message)
             try:
-                assert "Fail!" in message
+                assert "Success!" in message
             except AssertionError as e:
                 log.error(e)
                 raise
