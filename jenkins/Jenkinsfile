@@ -7,12 +7,30 @@ pipeline {
 //     }
 
     stages {
+        stage('Setup Python'){
+            steps {
+                def python_installed = bat(script: 'python --version', returnStatus : true)
+                if(python_installed != 0){
+                    error("Python is not installed or not added to PATH")
+                }
+            }
+        }
         stage('GIT Checkout') {
             steps {
                 echo "*********Git checkout code*********"
                 git branch: 'master',
                         credentialsId: 'GitHub_643',
                         url: 'https://github.com/vdinuu/selenium_python.git'
+            }
+        }
+        stage('Install dependencies'){
+            steps {
+                bat '''
+                python -m venv venv
+                call venv\\Scripts\\activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
             }
         }
         stage('Execute test cases') {
