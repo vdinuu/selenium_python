@@ -40,12 +40,18 @@ pipeline {
             }
         }
 //         Make sure to install HTML publisher plugin before using this stage
-        stage('Publish HTML report') {
-            steps {
-                allure([
-                        results: [[path: 'allure-results']],   // Path to the directory with allure-results
-                        report: 'allure-report'                 // Path to the directory with generated allure report
-                ])
+//         stage('Publish HTML report') {
+//             steps {
+//                 allure([
+//                         results: [[path: 'allure-results']],   // Path to the directory with allure-results
+//                         report: 'allure-report'                 // Path to the directory with generated allure report
+//                 ])
+//             }
+//         }
+        post {
+            always {
+                // Publish the Allure report
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
         }
     }
