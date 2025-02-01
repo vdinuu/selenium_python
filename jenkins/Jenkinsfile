@@ -29,7 +29,7 @@ pipeline {
             steps {
                 echo "*********Executing test cases**********"
                 bat """
-                    pytest -s
+                    pytest -s --alluredir=./allure-results
                     """
             }
         }
