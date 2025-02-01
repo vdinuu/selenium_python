@@ -1,10 +1,9 @@
 pipeline {
     agent any
 
-//     parameters {
-//         choice(name: 'PROFILE', choices: ['smoke', 'regression'], description: "Select the maven profile to be executed")
-// //        string(name: 'TAG', defaultValue: "AddPlace", description: 'Enter the tag you want to use for execution')
-//     }
+    parameters {
+        choice(name: 'BrowserName', choices: ['chrome', 'firefox', 'edge'], description: "Choose the browser for execution")
+    }
 
     stages {
         stage('GIT Checkout') {
@@ -29,7 +28,7 @@ pipeline {
             steps {
                 echo "*********Executing test cases**********"
                 bat """
-                    pytest -s --alluredir=./allure-results
+                    pytest -s --browser_name ${params.BrowserName} --alluredir=./allure-results
                     """
             }
         }
