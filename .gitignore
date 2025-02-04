@@ -6,3 +6,6 @@ tests/.pytest_cache
 *.log
 *.pyc
 allure-results/
+tests/__pycache__/
+utilities/__pycache__/
+logs
