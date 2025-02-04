@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo "*********Executing test cases**********"
                 bat """
-                    pytest -s --browser_name ${params.BrowserName} --alluredir=./allure-results
+                    pytest -s --browser_name ${params.BrowserName} --alluredir=./allure-results -v junitxml='result.xml'
                     """
             }
         }
