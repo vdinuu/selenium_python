@@ -9,3 +9,4 @@ allure-results/
 tests/__pycache__/
 utilities/__pycache__/
 logs
+result.xml
