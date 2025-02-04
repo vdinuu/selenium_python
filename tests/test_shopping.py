@@ -3,6 +3,7 @@ import pytest
 
 from pages.LandingPage import LandingPage
 from utilities.Base import Base
+from utilities.GetTestData import GetTestData
 
 
 @allure.feature("shopping site")
@@ -33,9 +34,9 @@ class TestShopping(Base):
 
     @allure.story("Shop product")
     @allure.severity(allure.severity_level.CRITICAL)
-    def test_e2e(self, setup):
+    def test_e2e(self, get_e2e_data, setup):
         log = self.get_logger()
-        product_needed = "Samsung Note 8"
+        product_needed = get_e2e_data["product_name"]
         landing_page = LandingPage(self.driver)
         with allure.step("Navigate to url and add product to cart"):
             products_page = landing_page.go_to_products()
@@ -46,7 +47,7 @@ class TestShopping(Base):
             assert product_needed == product_in_cart
         with allure.step("checkout product"):
             confirmation_page = cart_page.checkout_product()
-            country_needed = "india"
+            country_needed = get_e2e_data["country"]
             confirmation_page.select_country(country_needed)
             confirmation_page.select_terms_checkbox()
             confirmation_page.purchase_order()
@@ -59,13 +60,20 @@ class TestShopping(Base):
                 log.error(e)
                 raise
 
-
     # data parameterization using tuple
     # @pytest.fixture(params=[("Dinu", "test@test.com", "tester@453", "Male", "11112012"),
     #                         ("Sini", "test@test.com", "testersini@453", "Female", "11112012")])
     # using dictionary
-    @pytest.fixture(params=[
-        {"name": "Dinu", "email": "test@test.com", "password": "tester@453", "gender": "Male", "dob": "11112012"},
-        {"name": "Sini", "email": "sini@test.com", "password": "tester@453", "gender": "Female", "dob": "11112012"}])
+    # @pytest.fixture(params=[
+    #     {"name": "Dinu", "email": "test@test.com", "password": "tester@453", "gender": "Male", "dob": "11112012"},
+    #     {"name": "Sini", "email": "sini@test.com", "password": "tester@453", "gender": "Female", "dob": "11112012"}])
+    # def get_data(self, request):
+    #     return request.param
+
+    @pytest.fixture(params=GetTestData.get_test_data("test_user_registration"))
     def get_data(self, request):
+        return request.param
+
+    @pytest.fixture(params=GetTestData.get_test_data("test_e2e"))
+    def get_e2e_data(self, request):
         return request.param
